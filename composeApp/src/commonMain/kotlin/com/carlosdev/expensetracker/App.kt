@@ -6,14 +6,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import moe.tlaster.precompose.PreComposeApp
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-@Preview
 fun App() {
+
+    val colors = getColorsTheme()
+
     PreComposeApp {
-        Column (modifier = Modifier.fillMaxSize()){
-            Text("Test text")
+        AppTheme {
+            Column (modifier = Modifier.fillMaxSize()){
+                Text("Test text", color = colors.text)
+            }
         }
     }
 }

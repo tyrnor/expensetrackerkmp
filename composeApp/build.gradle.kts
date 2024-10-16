@@ -48,10 +48,10 @@ kotlin {
             api(compose.animation)
 
             //Navigation PreCompose
-            api("moe.tlaster:precompose:1.5.10")
+            api(libs.precompose)
 
             //Viewmodel
-            api("moe.tlaster:precompose-viewmodel:1.5.10")
+            api(libs.precompose.viewmodel)
 
         }
     }
@@ -81,6 +81,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        compose = true
     }
 }
 

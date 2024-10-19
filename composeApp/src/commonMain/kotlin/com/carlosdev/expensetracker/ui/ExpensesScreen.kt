@@ -32,11 +32,11 @@ import androidx.compose.ui.unit.sp
 import com.carlosdev.expensetracker.data.ExpenseManager
 import com.carlosdev.expensetracker.domain.model.Expense
 import com.carlosdev.expensetracker.getColorsTheme
-import kotlin.math.exp
+import com.carlosdev.expensetracker.presentation.ExpensesUiState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExpensesScreen() {
+fun ExpensesScreen(uiState: ExpensesUiState, onExpenseClick: (expense: Expense) -> Unit) {
 
     val colors = getColorsTheme()
 
@@ -46,20 +46,20 @@ fun ExpensesScreen() {
     ) {
         stickyHeader {
             Column(modifier = Modifier.background(colors.background)) {
-                ExpensesTotalHeader(total = 1023.3)
+                ExpensesTotalHeader(total = uiState.total)
                 AllExpensesHeader()
             }
         }
-        items(ExpenseManager.fakeExpenseList) { item: Expense ->
+        items(uiState.expenses) { item: Expense ->
             ExpensesItem(expense = item) {
-                println("Expense clicked: $it")
+                onExpenseClick
             }
         }
     }
 }
 
 @Composable
-fun ExpensesTotalHeader(modifier: Modifier = Modifier, total: Double) {
+fun ExpensesTotalHeader(total: Double) {
     Card(shape = RoundedCornerShape(30), backgroundColor = Color.Black, elevation = 5.dp) {
         Box(
             modifier = Modifier.fillMaxWidth().height(130.dp).padding(16.dp),
@@ -77,7 +77,7 @@ fun ExpensesTotalHeader(modifier: Modifier = Modifier, total: Double) {
 }
 
 @Composable
-fun AllExpensesHeader(modifier: Modifier = Modifier) {
+fun AllExpensesHeader() {
     val colors = getColorsTheme()
 
     Row(
@@ -104,7 +104,6 @@ fun AllExpensesHeader(modifier: Modifier = Modifier) {
 
 @Composable
 fun ExpensesItem(
-    modifier: Modifier = Modifier,
     expense: Expense,
     onExpenseClick: (expense: Expense) -> Unit
 ) {

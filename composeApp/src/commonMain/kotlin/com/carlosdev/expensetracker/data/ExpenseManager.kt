@@ -70,4 +70,6 @@ object ExpenseManager {
     fun getCategories(): List<ExpenseCategory> {
         return ExpenseCategory.entries
     }
+
+    //TODO add delete expense
 }

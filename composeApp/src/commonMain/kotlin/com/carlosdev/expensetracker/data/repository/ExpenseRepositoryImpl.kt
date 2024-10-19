@@ -5,20 +5,20 @@ import com.carlosdev.expensetracker.domain.model.Expense
 import com.carlosdev.expensetracker.domain.model.ExpenseCategory
 import com.carlosdev.expensetracker.domain.repository.ExpenseRepository
 
-class ExpenseRepositoryImpl: ExpenseRepository {
+class ExpenseRepositoryImpl(private val expenseManager: ExpenseManager): ExpenseRepository {
     override suspend fun getExpenses(): List<Expense> {
-        return ExpenseManager.fakeExpenseList
+        return expenseManager.fakeExpenseList
     }
 
     override suspend fun addExpense(expense: Expense) {
-        ExpenseManager.addExpense(expense)
+        expenseManager.addExpense(expense)
     }
 
     override suspend fun editExpense(expense: Expense) {
-        ExpenseManager.editExpense(expense)
+        expenseManager.editExpense(expense)
     }
 
     override suspend fun getCategories(): List<ExpenseCategory> {
-        return ExpenseManager.getCategories()
+        return expenseManager.getCategories()
     }
 }

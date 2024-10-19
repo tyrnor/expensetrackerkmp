@@ -34,28 +34,28 @@ import com.carlosdev.expensetracker.domain.model.Expense
 import com.carlosdev.expensetracker.getColorsTheme
 import com.carlosdev.expensetracker.presentation.ExpensesUiState
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExpensesScreen(uiState: ExpensesUiState, onExpenseClick: (expense: Expense) -> Unit) {
 
     val colors = getColorsTheme()
-
-    LazyColumn(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+    Column(
+        modifier = Modifier.background(colors.background)
+            .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        stickyHeader {
-            Column(modifier = Modifier.background(colors.background)) {
-                ExpensesTotalHeader(total = uiState.total)
-                AllExpensesHeader()
-            }
-        }
-        items(uiState.expenses) { item: Expense ->
-            ExpensesItem(expense = item) {
-                onExpenseClick
+        ExpensesTotalHeader(total = uiState.total)
+        AllExpensesHeader()
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(uiState.expenses) { item: Expense ->
+                ExpensesItem(expense = item) {
+                    onExpenseClick
+                }
             }
         }
     }
+
 }
 
 @Composable

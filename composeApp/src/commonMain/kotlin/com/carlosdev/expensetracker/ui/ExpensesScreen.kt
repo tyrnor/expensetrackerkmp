@@ -1,6 +1,5 @@
 package com.carlosdev.expensetracker.ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,7 +28,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.carlosdev.expensetracker.data.ExpenseManager
 import com.carlosdev.expensetracker.domain.model.Expense
 import com.carlosdev.expensetracker.getColorsTheme
 import com.carlosdev.expensetracker.presentation.ExpensesUiState

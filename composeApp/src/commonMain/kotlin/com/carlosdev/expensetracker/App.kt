@@ -1,21 +1,27 @@
 package com.carlosdev.expensetracker
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.carlosdev.expensetracker.data.TitleTopBarTypes
+import com.carlosdev.expensetracker.navigation.Navigation
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
@@ -64,9 +70,23 @@ fun App() {
                         }
                     )
                 },
-                backgroundColor = colors.background
+                floatingActionButton = {
+                    if (!isEditOrAddExpenses) {
+                        FloatingActionButton(
+                            modifier = Modifier.padding(8.dp),
+                            onClick = {
+                                navigator.navigate("/addExpenses")
+                            },
+                            shape = RoundedCornerShape(50),
+                            backgroundColor = colors.addIcon,
+                            contentColor = Color.White
+                        ) {
+                            Icon(imageVector = Icons.Default.Add, contentDescription = "FAB")
+                        }
+                    }
+                }
             ) {
-
+                Navigation(navigator)
             }
         }
     }

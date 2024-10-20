@@ -8,6 +8,7 @@ import com.carlosdev.expensetracker.data.ExpenseManager
 import com.carlosdev.expensetracker.data.repository.ExpenseRepositoryImpl
 import com.carlosdev.expensetracker.getColorsTheme
 import com.carlosdev.expensetracker.presentation.ExpensesViewModel
+import com.carlosdev.expensetracker.ui.ExpensesDetailScreen
 import com.carlosdev.expensetracker.ui.ExpensesScreen
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.NavHost
@@ -33,10 +34,18 @@ fun Navigation(navigator: Navigator) {
             }
         }
 
-        scene(route = "/addExpenses/{expenseId}") {
+        scene(route = "/addExpenses/{expenseId}?") {
             val idFromPath = it.path<Long>("expenseId")
-            val isAddExpense = idFromPath?.let { id ->
+            val expense = idFromPath?.let { id ->
                 viewModel.getExpensesById(id)
+            }
+            ExpensesDetailScreen(expense = expense) { expense ->
+                if (expense == null ){
+                    viewModel.addExpense(expense)
+                } else {
+                    viewModel.editExpense(expense)
+                }
+                navigator.popBackStack()
             }
         }
     }

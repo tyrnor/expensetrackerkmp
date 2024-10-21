@@ -21,4 +21,8 @@ class ExpenseRepositoryImpl(private val expenseManager: ExpenseManager) : Expens
     override fun getCategories(): List<ExpenseCategory> {
         return expenseManager.getCategories()
     }
+
+    override fun deleteExpense(expense: Expense) {
+        expenseManager.deleteExpense(expense)
+    }
 }

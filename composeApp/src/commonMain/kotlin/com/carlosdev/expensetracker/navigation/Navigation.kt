@@ -29,7 +29,9 @@ fun Navigation(navigator: Navigator) {
         initialRoute = "/home"
     ) {
         scene(route = "/home") {
-            ExpensesScreen(uiState = uiState) { expense ->
+            ExpensesScreen(uiState = uiState, onExpenseLongPress = { expense ->
+                viewModel.deleteExpense(expense)
+            }) { expense ->
                 navigator.navigate("/addExpenses/${expense.id}")
             }
         }
@@ -39,8 +41,11 @@ fun Navigation(navigator: Navigator) {
             val expense = idFromPath?.let { id ->
                 viewModel.getExpensesById(id)
             }
-            ExpensesDetailScreen(expense = expense) { expense ->
-                if (expense == null ){
+            ExpensesDetailScreen(
+                expense = expense,
+                categoryList = viewModel.getCategories()
+            ) { expense ->
+                if (expense == null) {
                     viewModel.addExpense(expense)
                 } else {
                     viewModel.editExpense(expense)

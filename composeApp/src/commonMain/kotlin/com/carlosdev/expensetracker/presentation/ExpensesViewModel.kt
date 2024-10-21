@@ -1,6 +1,7 @@
 package com.carlosdev.expensetracker.presentation
 
 import com.carlosdev.expensetracker.domain.model.Expense
+import com.carlosdev.expensetracker.domain.model.ExpenseCategory
 import com.carlosdev.expensetracker.domain.repository.ExpenseRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -52,9 +53,20 @@ class ExpensesViewModel(private val expenseRepository: ExpenseRepository) : View
         return allExpenses.first{ it.id == id }
     }
 
+    fun getCategories() : List<ExpenseCategory> {
+        return expenseRepository.getCategories()
+    }
+
+    fun deleteExpense(expense: Expense){
+        viewModelScope.launch {
+            expenseRepository.deleteExpense(expense)
+            updateState()
+        }
+    }
     private fun updateState() {
         _uiState.update { state ->
             state.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
         }
     }
+
 }

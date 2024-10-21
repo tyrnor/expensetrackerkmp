@@ -3,6 +3,7 @@ package com.carlosdev.expensetracker.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -33,7 +35,11 @@ import com.carlosdev.expensetracker.getColorsTheme
 import com.carlosdev.expensetracker.presentation.ExpensesUiState
 
 @Composable
-fun ExpensesScreen(uiState: ExpensesUiState, onExpenseClick: (expense: Expense) -> Unit) {
+fun ExpensesScreen(
+    uiState: ExpensesUiState,
+    onExpenseLongPress: (expense: Expense) -> Unit,
+    onExpenseClick: (expense: Expense) -> Unit
+) {
 
     val colors = getColorsTheme()
     Column(
@@ -47,7 +53,7 @@ fun ExpensesScreen(uiState: ExpensesUiState, onExpenseClick: (expense: Expense) 
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(uiState.expenses) { item: Expense ->
-                ExpensesItem(expense = item) {
+                ExpensesItem(expense = item, onExpenseLongPress = onExpenseLongPress) {
                     onExpenseClick
                 }
             }
@@ -103,13 +109,23 @@ fun AllExpensesHeader() {
 @Composable
 fun ExpensesItem(
     expense: Expense,
-    onExpenseClick: (expense: Expense) -> Unit
+    onExpenseLongPress: (expense: Expense) -> Unit,
+    onExpenseClick: (expense: Expense) -> Unit,
 ) {
     val colors = getColorsTheme()
 
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp)
-            .clickable { onExpenseClick(expense) },
+            .pointerInput(Unit) {
+                detectTapGestures(onLongPress = {
+                    onExpenseLongPress(expense)
+                },
+                    onPress = {
+                        onExpenseClick(expense)
+                    }
+
+                )
+            },
         backgroundColor = colors.expenseItem,
         shape = RoundedCornerShape(30)
     ) {

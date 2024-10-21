@@ -71,5 +71,7 @@ object ExpenseManager {
         return ExpenseCategory.entries
     }
 
-    //TODO add delete expense
+    fun deleteExpense(expense: Expense) {
+        fakeExpenseList.remove(expense)
+    }
 }
